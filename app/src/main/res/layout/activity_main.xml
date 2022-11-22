@@ -7,11 +7,46 @@
     tools:context=".MainActivity">
 
 
+    <fragment
+        android:id="@+id/nav_host_fragment"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginStart="1dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginEnd="1dp"
+        app:defaultNavHost="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:navGraph="@navigation/nav_graph" />
+
     <com.ismaeldivita.chipnavigation.ChipNavigationBar
+        android:id="@+id/btmnavBar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_50sdp"
-        android:background="#C2B6B6"
+        android:background="@drawable/rounded_corner"
+        app:cnb_menuResource="@menu/menu_layout"
+        app:cnb_unselectedColor="@color/black"
+        app:cnb_radius="@dimen/_20sdp"
+        android:layout_margin="@dimen/_20sdp"
+        android:elevation="@dimen/_10sdp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        android:visibility="visible">
+
+    </com.ismaeldivita.chipnavigation.ChipNavigationBar>
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNav"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/nav_host_fragment"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:visibility="gone"
+        app:menu="@menu/menu_layout" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

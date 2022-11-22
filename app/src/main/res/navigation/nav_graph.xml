@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/dashboard">
+
+    <fragment
+        android:id="@+id/dashboard"
+        android:name="com.example.bottomnavbarwithnavgation.fragment.Dashboard"
+        android:label="fragment_dashboard"
+        tools:layout="@layout/fragment_dashboard" />
+    <fragment
+        android:id="@+id/manage"
+        android:name="com.example.bottomnavbarwithnavgation.fragment.Manage"
+        android:label="fragment_manage"
+        tools:layout="@layout/fragment_manage" />
+    <fragment
+        android:id="@+id/profile"
+        android:name="com.example.bottomnavbarwithnavgation.fragment.Profile"
+        android:label="fragment_profile"
+        tools:layout="@layout/fragment_profile" />
+</navigation>
