@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/dashBoard"
+        android:title="Dashboard"
+        android:icon="@drawable/ic_baseline_dashboard_24"/>
+
+    <item android:id="@+id/btm_manage"
+        android:title="manage"
+        android:icon="@drawable/manage"/>
+
+    <item android:id="@+id/btm_profile"
+        android:title="profile"
+        android:icon="@drawable/profile"/>
+
+</menu>
