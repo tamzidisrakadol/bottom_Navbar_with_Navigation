@@ -6,6 +6,13 @@ android {
     namespace 'com.example.bottomnavbarwithnavgation'
     compileSdk 32
 
+    dataBinding{
+        enabled = true
+    }
+    viewBinding{
+        enabled=true
+    }
+
     defaultConfig {
         applicationId "com.example.bottomnavbarwithnavgation"
         minSdk 23

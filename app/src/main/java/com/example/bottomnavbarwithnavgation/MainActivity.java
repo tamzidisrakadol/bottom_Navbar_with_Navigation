@@ -19,7 +19,6 @@ import com.ismaeldivita.chipnavigation.ChipNavigationBar;
 
 public class MainActivity extends AppCompatActivity {
     ChipNavigationBar chipNavigationBar;
-    NavController navController;
     BottomNavigationView bottomNavigationView;
 
 
@@ -27,10 +26,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        getSupportActionBar().hide();
         chipNavigationBar = findViewById(R.id.btmnavBar);
         bottomNavigationView = findViewById(R.id.bottomNav);
-        navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+
 
 
         chipNavigationBar.setOnItemSelectedListener(new ChipNavigationBar.OnItemSelectedListener() {
@@ -52,6 +50,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        NavigationUI.setupWithNavController(bottomNavigationView, navController);
+
     }
 }
