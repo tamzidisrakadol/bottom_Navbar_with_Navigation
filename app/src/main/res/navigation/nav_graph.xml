@@ -14,10 +14,19 @@
         android:id="@+id/manage"
         android:name="com.example.bottomnavbarwithnavgation.fragment.Manage"
         android:label="fragment_manage"
-        tools:layout="@layout/fragment_manage" />
+        tools:layout="@layout/fragment_manage" >
+        <action
+            android:id="@+id/action_manage_to_addBookFragment"
+            app:destination="@id/addBookFragment" />
+    </fragment>
     <fragment
         android:id="@+id/profile"
         android:name="com.example.bottomnavbarwithnavgation.fragment.Profile"
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile" />
+    <fragment
+        android:id="@+id/addBookFragment"
+        android:name="com.example.bottomnavbarwithnavgation.fragment.AddBookFragment"
+        android:label="fragment_add_book"
+        tools:layout="@layout/fragment_add_book" />
 </navigation>

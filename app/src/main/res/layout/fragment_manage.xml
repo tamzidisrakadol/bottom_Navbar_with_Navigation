@@ -57,6 +57,15 @@
                     android:backgroundTint="@color/teal_700"
                     android:text="ADD"
                     android:textSize="@dimen/_20sdp"></Button>
+
+                <ImageButton
+                    android:id="@+id/addBookBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/book"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/_10sdp"/>
+
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
