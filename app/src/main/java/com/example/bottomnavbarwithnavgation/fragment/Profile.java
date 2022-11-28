@@ -25,6 +25,9 @@ import com.example.bottomnavbarwithnavgation.model.CategoryModel;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -48,7 +51,8 @@ public class Profile extends Fragment {
     Uri pdfUrl;
     List<CategoryModel> categoryModelList;
     ProgressDialog progressDialog;
-    String bookName,bookDesc,category ;
+    String bookName, bookDesc, category;
+    FirebaseAuth firebaseAuth;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -67,33 +71,33 @@ public class Profile extends Fragment {
         progressDialog.setTitle("Please Wait");
         progressDialog.setCancelable(false);
         fragmentProfileBinding.pdfImgBtn.setOnClickListener(v -> pickUPPdf());
-        fragmentProfileBinding.bookCategoryTV.setOnClickListener(v -> {categoryDialouge();});
+        fragmentProfileBinding.bookCategoryTV.setOnClickListener(v -> {
+            categoryDialouge();
+        });
         fragmentProfileBinding.addBookBtn.setOnClickListener(v -> {
             validData();
         });
     }
 
-    private void validData() {
-         bookName = fragmentProfileBinding.bookNameEditText.getText().toString();
-         bookDesc = fragmentProfileBinding.bookDescEditText.getText().toString();
-         category = fragmentProfileBinding.bookCategoryTV.getText().toString();
 
-        if (TextUtils.isEmpty(bookName)){
+    private void validData() {
+        bookName = fragmentProfileBinding.bookNameEditText.getText().toString();
+        bookDesc = fragmentProfileBinding.bookDescEditText.getText().toString();
+        category = fragmentProfileBinding.bookCategoryTV.getText().toString();
+
+        if (TextUtils.isEmpty(bookName)) {
             fragmentProfileBinding.bookNameEditText.requestFocus();
             Toast.makeText(getContext(), "Enter Book Name", Toast.LENGTH_SHORT).show();
 
-        }else if (TextUtils.isEmpty(bookDesc)){
+        } else if (TextUtils.isEmpty(bookDesc)) {
             fragmentProfileBinding.bookDescEditText.requestFocus();
             Toast.makeText(getContext(), "Enter Book dessscription", Toast.LENGTH_SHORT).show();
-        }
-        else if (TextUtils.isEmpty(category)){
+        } else if (TextUtils.isEmpty(category)) {
             fragmentProfileBinding.bookCategoryTV.requestFocus();
             Toast.makeText(getContext(), "select Category", Toast.LENGTH_SHORT).show();
-        }
-        else if(pdfUrl==null){
+        } else if (pdfUrl == null) {
             Toast.makeText(getContext(), "pick Up Pdf", Toast.LENGTH_SHORT).show();
-        }
-        else{
+        } else {
             uploadPdfToStorage();
         }
 
@@ -105,7 +109,7 @@ public class Profile extends Fragment {
         progressDialog.show();
 
         long timeStamp = System.currentTimeMillis();
-        String fileNamePath = "Books/"+timeStamp;
+        String fileNamePath = "Books/" + timeStamp;
         StorageReference storageReference = FirebaseStorage.getInstance().getReference(fileNamePath);
         storageReference.putFile(pdfUrl)
                 .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -113,31 +117,35 @@ public class Profile extends Fragment {
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                         progressDialog.dismiss();
                         Task<Uri> uriTask = taskSnapshot.getStorage().getDownloadUrl();
-                        while (!uriTask.isSuccessful()){
-                            String uploadPDFUrl = ""+uriTask.getResult();
-                            uploadpdfTODB(uploadPDFUrl,timeStamp);
-                        }
+                        while (!uriTask.isSuccessful()) ;
+                        String uploadPDFUrl = "" + uriTask.getResult();
+                        uploadpdfTODB(uploadPDFUrl, timeStamp);
+
+                        fragmentProfileBinding.bookNameEditText.setText("");
+                        fragmentProfileBinding.bookDescEditText.setText("");
+                        fragmentProfileBinding.bookCategoryTV.setText("");
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(getContext(), "Error "+e, Toast.LENGTH_SHORT).show();
+                        progressDialog.dismiss();
+                        Toast.makeText(getContext(), "Error " + e, Toast.LENGTH_SHORT).show();
                     }
                 });
     }
 
-    private void uploadpdfTODB(String uploadpdfUrl,long timeStamp) {
-        Map<String,Object> map = new HashMap<>();
-        map.put("id",timeStamp);
-        map.put("title",bookName);
-        map.put("description",bookDesc);
-        map.put("category",category);
-        map.put("url",uploadpdfUrl);
-        map.put("timestamp",timeStamp);
+    private void uploadpdfTODB(String uploadpdfUrl, long timeStamp) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("id", timeStamp);
+        map.put("title", bookName);
+        map.put("description", bookDesc);
+        map.put("category", category);
+        map.put("url", uploadpdfUrl);
+        map.put("timestamp", timeStamp);
 
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Books");
-        databaseReference.child(""+timeStamp)
+        databaseReference.child("" + timeStamp)
                 .setValue(map)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
@@ -148,14 +156,14 @@ public class Profile extends Fragment {
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(getContext(), "error "+e.getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), "error " + e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
     }
 
     private void categoryDialouge() {
         String[] categoriesArray = new String[categoryModelList.size()];
-        for (int i=0;i<categoryModelList.size();i++){
+        for (int i = 0; i < categoryModelList.size(); i++) {
             categoriesArray[i] = categoryModelList.get(i).getCategory();
         }
         AlertDialog.Builder alertDialouge = new AlertDialog.Builder(getContext());
@@ -170,13 +178,13 @@ public class Profile extends Fragment {
 
     }
 
-    private void loadCategories(){
+    private void loadCategories() {
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Categories");
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 categoryModelList.clear();
-                for (DataSnapshot dataSnapshot: snapshot.getChildren()){
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     CategoryModel categoryModel = dataSnapshot.getValue(CategoryModel.class);
                     categoryModelList.add(categoryModel);
                 }
@@ -193,18 +201,16 @@ public class Profile extends Fragment {
         Intent intent = new Intent();
         intent.setType("application/pdf");
         intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent,"Select pdf"),PDF_PICKUP_CODE);
+        startActivityForResult(Intent.createChooser(intent, "Select pdf"), PDF_PICKUP_CODE);
 
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode==RESULT_OK){
-            if (requestCode==PDF_PICKUP_CODE){
-                pdfUrl=data.getData();
-            }
-        }else {
+        if (requestCode == PDF_PICKUP_CODE && resultCode == RESULT_OK && data != null && data.getData() != null) {
+            pdfUrl = data.getData();
+        } else {
             Toast.makeText(getContext(), "picking pdf canceled", Toast.LENGTH_SHORT).show();
         }
     }
