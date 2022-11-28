@@ -3,16 +3,80 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/purple_700"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#4169E1"
     tools:context=".fragment.Profile">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:textColor="@color/white"
-        android:textSize="@dimen/_20sdp"
-        android:text="@string/hello_blank_fragment" />
+    <ImageButton
+        android:id="@+id/pdfImgBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center|right"
+        android:layout_marginRight="@dimen/_20sdp"
+        android:layout_marginBottom="@dimen/_130sdp"
+        android:backgroundTint="@color/white"
+        android:minHeight="48dp"
+        android:src="@drawable/ic_baseline_attach_file_24" />
 
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="@dimen/_280sdp"
+        android:layout_height="@dimen/_220sdp"
+        app:cardCornerRadius="@dimen/_20sdp"
+        android:layout_gravity="center">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/_10sdp"
+            android:orientation="vertical">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/bookNameEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:drawableLeft="@drawable/book"
+                    android:hint="  Book name"
+                    style="@style/Widget.Material3.TextInputLayout.OutlinedBox"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_5sdp">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/bookDescEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:drawableLeft="@drawable/book"
+                    android:hint="  Book Description"
+                    style="@style/Widget.Material3.TextInputLayout.OutlinedBox"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:id="@+id/bookCategoryTV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:padding="@dimen/_5sdp"
+                android:hint="  BOOK CATEGORY"
+                android:textSize="@dimen/_15sdp"
+                android:drawableLeft="@drawable/category"
+                android:drawableRight="@drawable/arrow_down"/>
+
+            <Button
+                android:id="@+id/addBookBtn"
+                android:layout_width="@dimen/_100sdp"
+                android:layout_height="48dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:backgroundTint="@color/teal_700"
+                android:text="Add BOOK" />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
 </FrameLayout>

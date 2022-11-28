@@ -5,6 +5,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.view.LayoutInflater;
@@ -30,6 +32,7 @@ public class Dashboard extends Fragment {
     CategoryModel categoryModel;
     List<CategoryModel> categoryModelList;
     CategoryRecylerView categoryRecylerView;
+    NavController navController;
 
 
     @Override
@@ -43,6 +46,7 @@ public class Dashboard extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        navController= Navigation.findNavController(view);
         categoryModelList = new ArrayList<>();
         loadCategories();
     }

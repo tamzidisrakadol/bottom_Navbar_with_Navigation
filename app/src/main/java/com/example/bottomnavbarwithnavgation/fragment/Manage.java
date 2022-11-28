@@ -6,6 +6,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -32,6 +34,7 @@ public class Manage extends Fragment {
     String categoryName;
     FirebaseAuth firebaseAuth;
     ProgressDialog progressDialog;
+    NavController navController;
 
 
     @Override
@@ -53,12 +56,15 @@ public class Manage extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         firebaseAuth = FirebaseAuth.getInstance();
+        navController = Navigation.findNavController(view);
         progressDialog = new ProgressDialog(getContext());
         progressDialog.setTitle("please Wait");
         progressDialog.setCancelable(false);
         fragmentManageBinding.addBtn.setOnClickListener(v -> {
             validData();
         });
+
+
     }
 
     private void validData() {
